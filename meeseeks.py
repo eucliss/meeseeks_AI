@@ -4,6 +4,8 @@ import pygame as pg
 import speech_recognition as sr
 import subprocess
 
+# Hi miller
+
 def play_music(music_file, volume=0.8):
     '''
     stream music with mixer.music module in a blocking manner
