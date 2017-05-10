@@ -1,7 +1,6 @@
 # https://soundcloud.com/theletter10/sets/rick-and-morty-episode-5
 # https://github.com/hnarayanan/shpotify
 # GCP
-# darksky weather api : cf7422de0aa9d26f97ff517ab4bcbe46
 # Hamilton coords: 43.0521° N, 75.4061° W
 
 import pygame as pg
