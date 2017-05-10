@@ -4,21 +4,24 @@ The beginning of my beautiful yet simple Mr. Meeseeks based AI that will run on 
 
 Also a good introduction to using GCP, currently only using the Speech API, but hopefully will expand
 
+Using Python 2.7.10
+
 ## Initialization 
-Needs : 
+### Needs : 
   - [ ] GCP account
   - [ ] DarkSky weather API key
   - [ ] Spotify application downloaded on your machine
 
-To run : 
+### To run : 
  - Install the Google Cloud SDK - https://cloud.google.com/sdk/ 
  - Follow the SDK initialization instructions here - https://cloud.google.com/sdk/docs/
  - Follow the Speech API initialization instructions here - https://cloud.google.com/speech/docs/getting-started
  - Install all the necessary packages used in meeseeks.py - Hopefully we will use a package manager in the future
+ - Run by doing `python meeseeks.py`
  
 
 
-##To do : 
+## To do : 
 - [ ] Make a good way to store API keys
 - [ ] Seperate Spotify logic from main function
 - [ ] Add functionality to tell us the weather for that day for a given location
