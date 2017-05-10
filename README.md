@@ -8,9 +8,9 @@ Using Python 2.7.10
 
 ## Initialization 
 ### Needs : 
-  - [ ] GCP account
-  - [ ] DarkSky weather API key
-  - [ ] Spotify application downloaded on your machine
+  - GCP account
+  - DarkSky weather API key
+  - Spotify application downloaded on your machine
 
 ### To run : 
  - Install the Google Cloud SDK - https://cloud.google.com/sdk/ 
