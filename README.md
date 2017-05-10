@@ -26,6 +26,7 @@ Using Python 2.7.10
 
 
 ## To do : 
+- [ ] Write tests
 - [ ] Make a good way to store API keys
 - [ ] Seperate Spotify logic from main function
 - [ ] Add functionality to tell us the weather for that day for a given location
