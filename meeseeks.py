@@ -3,6 +3,9 @@
 import pygame as pg
 import speech_recognition as sr
 import subprocess
+import spotipy
+import spotipy.util as util
+import sys
 
 def play_music(music_file, volume=0.8):
     '''
@@ -30,12 +33,6 @@ def play_music(music_file, volume=0.8):
         clock.tick(30)
 
 
-
-# music_file = "sucks.mp3"
-# volume = 1
-# play_music(music_file, volume)
-
-
 def recordAudio():
     # Record Audio
     r = sr.Recognizer()
@@ -56,18 +53,38 @@ def recordAudio():
 
     return data
 
+
 def main():
     dats = recordAudio()
-    print(dats)
-    if dats == "play Spotify":
+    #print(dats)
+
+    # Split into words list
+    dat_words = dats.split()
+
+    # Trying to give more flexibility to spotify requests
+    # Could be "play Spotify" or "Spotify play" or "Spotify play song"
+    if "Spotify" in dat_words or "spotify" in dat_words:
+        sp = spotipy.Spotify() # Instance of spotipy
+
+        # When searching for a song to play
+        if len(dat_words) > 2:
+            search = sp.search(q=" ".join(dat_words[2:]))
+            if search:
+                uri = search['tracks']['items'][0]['uri']
+
+        # Play meeseeks
         music_file = "cando.mp3"
         volume = 1
         play_music(music_file, volume)
-        subprocess.check_output(['spotify','play'])
+
+        # Play the song using shpotify
+        if uri:
+            subprocess.check_output(['spotify','play', 'uri', uri])
+        else:
+            subprocess.check_output(['spotify','play'])
 
 
 if __name__ == "__main__":
-    print(" hello ")
     main()
 
 
