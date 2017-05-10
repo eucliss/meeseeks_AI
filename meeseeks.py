@@ -100,6 +100,29 @@ def main():
         play_music(music_file, volume)
         main("play Spotify")
 
+    # ------------------------------------------
+    # THis was one way I was thinking of expanding spotify
+    #  Like doing something with lamda statements to parse the strings
+    #    more efficiently and stuff idk just a thought I had monday night
+    #
+    # def spotify(data):
+    #
+    #     result = {
+    #         'play': lamda x: subprocess.check_output(['spotify','play']),
+    #         'pause': lamda x: subprocess.check_output(['spotify','pause']),
+    #         'quit': lamda x: subprocess.check_output(['spotify','quit']),
+    #         '': lamda x: subprocess.check_output(['spotify','pause']),
+    #
+    #     }
+    #
+    #
+    #     result = {
+    #       'a': lambda x: x * 5,
+    #       'b': lambda x: x + 7,
+    #       'c': lambda x: x - 2
+    #     }['a'](3)
+    # ------------------------------------------
+
 
 def Weather():
     # Sign up for a darksky account and get an api key, theyre free
