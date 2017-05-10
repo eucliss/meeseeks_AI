@@ -1,7 +1,7 @@
 # https://soundcloud.com/theletter10/sets/rick-and-morty-episode-5
 
 import pygame as pg
-#import speech_recognition as sr
+import speech_recognition as sr
 import subprocess
 import spotipy
 import spotipy.util as util
@@ -56,8 +56,8 @@ def recordAudio():
 
 def main():
     # Greetingz
-    play_music("lookatme.mp3", 1)
-    
+    # play_music("lookatme.mp3", 1)
+
     dats = recordAudio()
     #print(dats)
 
@@ -70,6 +70,7 @@ def main():
         sp = spotipy.Spotify() # Instance of spotipy
 
         # When searching for a song to play
+        uri = False
         if len(dat_words) > 2:
             search = sp.search(q=" ".join(dat_words[2:]))
             if search:
