@@ -54,15 +54,18 @@ def recordAudio():
     return data
 
 
+'''
+Use google natural language api to take out a person from the request for spotify
+'''
+
 def main():
     dats = recordAudio()
-    #print(dats)
-
+    print(dats)
     # Split into words list
     dat_words = dats.split()
-
+    print(dat_words)
     # Trying to give more flexibility to spotify requests
-    # Could be "play Spotify" or "Spotify play" or "Spotify play song"
+    # Could be "play Spotify" or "Spotify play" or "Spotify play song/artist"
     if "Spotify" in dat_words or "spotify" in dat_words:
         sp = spotipy.Spotify() # Instance of spotipy
 
