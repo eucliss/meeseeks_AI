@@ -31,6 +31,7 @@ Using Python 2.7.10
 - [ ] Add functionality to tell us the weather for that day for a given location
   - Probably will just end up using the built in voice using subproccess say command
   - [ ] Allow different voices aka meeseeks voice for any string ( ? )
+- [ ] Make it a chatbot ?  https://chatbotsmagazine.com/the-complete-beginner-s-guide-to-chatbots-8280b7b906ca
 - [ ] Expand Spotify logic to allow much more detailed commands for 
   - [ ] Playlists
   - [ ] Artists
