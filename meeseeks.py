@@ -1,7 +1,7 @@
 # https://soundcloud.com/theletter10/sets/rick-and-morty-episode-5
 # https://github.com/hnarayanan/shpotify
 # GCP
-# Hamilton coords: 43.0521° N, 75.4061° W
+# Hamilton coords: 43.0521 N, 75.4061 W
 
 import pygame as pg
 import speech_recognition as sr
@@ -9,6 +9,8 @@ import subprocess
 import spotipy
 import spotipy.util as util
 import sys
+from forecastiopy import *
+
 
 def play_music(music_file, volume=0.8):
     '''
@@ -97,6 +99,36 @@ def main():
         volume = 1
         play_music(music_file, volume)
         main("play Spotify")
+
+
+def Weather():
+    # Sign up for a darksky account and get an api key, theyre free
+    #  I just dont wanna put credentials on github for security reasons obv
+    apikey = 'placeholder'
+
+
+    HamiltonCollegeCoord = [43.048403, -75.378503]
+
+    fio = ForecastIO.ForecastIO(apikey,
+                                units=ForecastIO.ForecastIO.UNITS_US,
+                                lang=ForecastIO.ForecastIO.LANG_ENGLISH,
+                                latitude=HamiltonCollegeCoord[0], longitude=HamiltonCollegeCoord[1])
+
+    if fio.has_currently() is True:
+    	currently = FIOCurrently.FIOCurrently(fio)
+        weatherString = 'It is currently ' + str(currently.temperature) + \
+            ' degrees and ' + currently.summary + ' with a ' + \
+            str(currently.precipProbability) + ' percent chance of precipitation'
+
+        # This for loop will print all the keys in the currently object
+    	# for item in currently.get().keys():
+    	# 	print item + ' : ' + unicode(currently.get()[item])
+    else:
+    	weatherString =  'No Currently data'
+
+    # uses built in terminal commands to say text
+    # hopefully can change this eventually to meeseeks sounds
+    subprocess.call(["say", weatherString])
 
 
 if __name__ == "__main__":
