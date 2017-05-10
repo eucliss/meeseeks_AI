@@ -4,12 +4,12 @@
 # Hamilton coords: 43.0521 N, 75.4061 W
 
 import pygame as pg
-import speech_recognition as sr
+#import speech_recognition as sr
 import subprocess
 import spotipy
 import spotipy.util as util
 import sys
-from forecastiopy import *
+#from forecastiopy import *
 
 
 def play_music(music_file, volume=0.8):
@@ -58,6 +58,30 @@ def recordAudio():
 
     return data
 
+def Spotify(dat_words):
+    sp = spotipy.Spotify()
+    uri = None
+
+    # If searching for a specific song, artist, whatever
+    if len(dat_words) > 2:
+        if "by" in dat_words:
+            dat_words.pop(dat_words.index("by"))
+        search = sp.search(q=" ".join(dat_words[2:]))
+        print(search)
+        # Try to get the first track from search
+        try:
+            uri = search['tracks']['items'][0]['uri']
+        except (KeyError, IndexError):
+            print("Search was empty...")
+            play_music(music_file="sucks.mp3", volume=1)
+            return main()
+
+
+        play_music(music_file="cando.mp3", volume=1)
+
+        # Play the song using shpotify
+        subprocess.check_output(['spotify','play','uri', uri] if uri else
+                                ['spotify','play'])
 
 def main():
     # Greetingz
@@ -65,32 +89,13 @@ def main():
 
     dats = recordAudio()
     #print(dats)
-
     # Split into words list
     dat_words = dats.split()
 
     # Trying to give more flexibility to spotify requests
     # Could be "play Spotify" or "Spotify play" or "Spotify play song"
     if "Spotify" in dat_words or "spotify" in dat_words:
-        sp = spotipy.Spotify() # Instance of spotipy
-
-        # When searching for a song to play
-        uri = False # Initialize uri so the conditional below in line 85 doesnt throw erro
-        if len(dat_words) > 2:
-            search = sp.search(q=" ".join(dat_words[2:]))
-            if search:
-                uri = search['tracks']['items'][0]['uri']
-
-        # Play meeseeks
-        music_file = "cando.mp3"
-        volume = 1
-        play_music(music_file, volume)
-
-        # Play the song using shpotify
-        if uri:
-            subprocess.check_output(['spotify','play', 'uri', uri])
-        else:
-            subprocess.check_output(['spotify','play'])
+        Spotify(dat_words)
 
     # If no known command, play sucks and call main recursively to
     # start the process over
