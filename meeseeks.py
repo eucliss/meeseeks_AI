@@ -98,7 +98,7 @@ def main():
         music_file = "sucks.mp3"
         volume = 1
         play_music(music_file, volume)
-        main("play Spotify")
+        main()
 
     # ------------------------------------------
     # THis was one way I was thinking of expanding spotify
