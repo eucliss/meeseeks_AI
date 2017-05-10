@@ -2,7 +2,9 @@
 
 The beginning of my beautiful yet simple Mr. Meeseeks based AI that will run on my rasberry pi and do cool stuff. Inspired by Rick and Morty Season 1 Episode 5
 
-![alt text](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6QRqMSb05tMl41nAK-_Sn6RS79qg2qy2aiIjv7dju2CwGlEpFIQ)
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6QRqMSb05tMl41nAK-_Sn6RS79qg2qy2aiIjv7dju2CwGlEpFIQ"/>
+</p>
 
 Also a good introduction to using GCP, currently only using the Speech API, but hopefully will expand
 
