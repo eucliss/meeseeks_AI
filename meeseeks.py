@@ -1,7 +1,7 @@
 # https://soundcloud.com/theletter10/sets/rick-and-morty-episode-5
 
 import pygame as pg
-import speech_recognition as sr
+#import speech_recognition as sr
 import subprocess
 import spotipy
 import spotipy.util as util
@@ -55,6 +55,9 @@ def recordAudio():
 
 
 def main():
+    # Greetingz
+    play_music("lookatme.mp3", 1)
+    
     dats = recordAudio()
     #print(dats)
 
@@ -82,6 +85,14 @@ def main():
             subprocess.check_output(['spotify','play', 'uri', uri])
         else:
             subprocess.check_output(['spotify','play'])
+
+    # If no known command, play sucks and call main recursively to
+    # start the process over
+    else:
+        music_file = "sucks.mp3"
+        volume = 1
+        play_music(music_file, volume)
+        main("play Spotify")
 
 
 if __name__ == "__main__":
