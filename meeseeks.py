@@ -12,7 +12,7 @@ import sys
 from forecastiopy import *
 
 
-def play_music(music_file, volume=0.8):
+def playMusic(musicFile, volume=0.8):
     '''
     stream music with mixer.music module in a blocking manner
     this will stream the sound from disk while playing
@@ -27,10 +27,10 @@ def play_music(music_file, volume=0.8):
     pg.mixer.music.set_volume(volume)
     clock = pg.time.Clock()
     try:
-        pg.mixer.music.load(music_file)
-        print("Music file {} loaded!".format(music_file))
+        pg.mixer.music.load(musicFile)
+        print("Music file {} loaded!".format(musicFile))
     except pg.error:
-        print("File {} not found! ({})".format(music_file, pg.get_error()))
+        print("File {} not found! ({})".format(musicFile, pg.get_error()))
         return
     pg.mixer.music.play()
     while pg.mixer.music.get_busy():
@@ -58,42 +58,24 @@ def recordAudio():
 
     return data
 
+def playSpotfiy(recordingList):
+    sp = spotipy.Spotify() # Instance of spotipy
 
-def main():
-    # Greetingz
-    play_music("lookatme.mp3", 1)
+    # When searching for a song to play
+    uri = False # Initialize uri so the conditional below in line 85 doesnt throw erro
+    if len(recordingList) > 2:
+        search = sp.search(q=" ".join(recordingList[2:]))
+        if search:
+            uri = search['tracks']['items'][0]['uri']
 
-    dats = recordAudio()
-    #print(dats)
+    # Play meeseeks
+    musicFile = "cando.mp3"
+    volume = 1
+    playMusic(musicFile, volume)
 
-    # Split into words list
-    dat_words = dats.split()
-
-    # Trying to give more flexibility to spotify requests
-    # Could be "play Spotify" or "Spotify play" or "Spotify play song"
-    if "Spotify" in dat_words or "spotify" in dat_words:
-        sp = spotipy.Spotify() # Instance of spotipy
-
-        # When searching for a song to play
-        uri = False # Initialize uri so the conditional below in line 85 doesnt throw erro
-        if len(dat_words) > 2:
-            search = sp.search(q=" ".join(dat_words[2:]))
-            if search:
-                uri = search['tracks']['items'][0]['uri']
-
-        # Play meeseeks
-        music_file = "cando.mp3"
-        volume = 1
-        play_music(music_file, volume)
-
-        # Play the song using shpotify
-        if uri:
-            subprocess.check_output(['spotify','play', 'uri', uri])
-        else:
-            subprocess.check_output(['spotify','play'])
-
-    # If no known command, play sucks and call main recursively to
-    # start the process over
+    # Play the song using shpotify
+    if uri:
+        subprocess.check_output(['spotify','play', 'uri', uri])
     else:
         music_file = "sucks.mp3"
         volume = 1
@@ -123,41 +105,66 @@ def main():
     #     }['a'](3)
     # ------------------------------------------
 
-
-def Weather():
+def describeWeather(recordingList):
     # Sign up for a darksky account and get an api key, theyre free
     #  I just dont wanna put credentials on github for security reasons obv
     apikey = 'placeholder'
-
-
     HamiltonCollegeCoord = [43.048403, -75.378503]
 
-    fio = ForecastIO.ForecastIO(apikey,
-                                units=ForecastIO.ForecastIO.UNITS_US,
-                                lang=ForecastIO.ForecastIO.LANG_ENGLISH,
-                                latitude=HamiltonCollegeCoord[0], longitude=HamiltonCollegeCoord[1])
+    try :
+        fio = ForecastIO.ForecastIO(apikey,
+            units=ForecastIO.ForecastIO.UNITS_US,
+            lang=ForecastIO.ForecastIO.LANG_ENGLISH,
+            latitude=HamiltonCollegeCoord[0], longitude=HamiltonCollegeCoord[1])
 
-    if fio.has_currently() is True:
-    	currently = FIOCurrently.FIOCurrently(fio)
-        weatherString = 'It is currently ' + str(currently.temperature) + \
+        if fio.has_currently() is True:
+            currently = FIOCurrently.FIOCurrently(fio)
+            weatherString = 'It is currently ' + str(currently.temperature) + \
             ' degrees and ' + currently.summary + ' with a ' + \
             str(currently.precipProbability) + ' percent chance of precipitation'
 
-        # This for loop will print all the keys in the currently object
-    	# for item in currently.get().keys():
-    	# 	print item + ' : ' + unicode(currently.get()[item])
+            # This for loop will print all the keys in the currently object
+        	# for item in currently.get().keys():
+        	# 	print item + ' : ' + unicode(currently.get()[item])
+        else:
+        	weatherString =  'No Currently data'
+
+        # uses built in terminal commands to say text
+        # hopefully can change this eventually to meeseeks sounds
+        subprocess.call(["say", weatherString])
+
+    except:
+        err = "Something went wrong. Try again."
+        subprocess.call(["say", err])
+
+def main(recording=""):
+    # Greetingz
+    if recording == "":
+        playMusic("lookatme.mp3", 1)
+
+        recording = recordAudio()
+
+    # Split into words list
+    recordingList = recording.lower().split()
+
+    # Trying to give more flexibility to spotify requests
+    # Could be "play Spotify" or "Spotify play" or "Spotify play song"
+    if "spotify" in recordingList:
+        playSpotfiy(recordingList)
+    if "weather" in recordingList:
+        describeWeather(recordingList)
+
+
+    # If no known command, play sucks and call main recursively to
+    # start the process over
     else:
-    	weatherString =  'No Currently data'
-
-    # uses built in terminal commands to say text
-    # hopefully can change this eventually to meeseeks sounds
-    subprocess.call(["say", weatherString])
-
+        musicFile = "sucks.mp3"
+        volume = 1
+        playMusic(musicFile, volume)
+        main()
 
 if __name__ == "__main__":
     main()
-
-
 
 # r = sr.Recognizer()
 # with sr.Microphone() as source:
