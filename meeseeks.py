@@ -77,10 +77,7 @@ def playSpotfiy(recordingList):
     if uri:
         subprocess.check_output(['spotify','play', 'uri', uri])
     else:
-        music_file = "sucks.mp3"
-        volume = 1
-        play_music(music_file, volume)
-        main()
+        subprocess.check_output(['spotify','play'])
 
     # ------------------------------------------
     # THis was one way I was thinking of expanding spotify
@@ -145,13 +142,16 @@ def main(recording=""):
         recording = recordAudio()
 
     # Split into words list
-    recordingList = recording.lower().split()
+    # ASCII encode and also lowercase the strings
+    recordingList = [x.encode('ascii') for x in recording.lower().split()]
+
+    print(recordingList)
 
     # Trying to give more flexibility to spotify requests
     # Could be "play Spotify" or "Spotify play" or "Spotify play song"
     if "spotify" in recordingList:
         playSpotfiy(recordingList)
-    if "weather" in recordingList:
+    elif "weather" in recordingList:
         describeWeather(recordingList)
 
 
