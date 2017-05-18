@@ -61,12 +61,22 @@ def recordAudio():
 def playSpotfiy(recordingList):
     sp = spotipy.Spotify() # Instance of spotipy
 
+    # Set up some presets for myself, 'play spotify dots' will play dots 2017
+    presets = {
+        'dots' : 'spotify:user:textilemill:playlist:6qfF1VfOEa0wWvWZrcR1ch',
+        'slim' : 'spotify:user:textilemill:playlist:678irse3jmmp6uCv7zJAuT',
+        'flame' : 'spotify:user:textilemill:playlist:554OSWIksDU4kiXt9aGJdm'
+    }
+
     # When searching for a song to play
     uri = False # Initialize uri so the conditional below in line 85 doesnt throw erro
     if len(recordingList) > 2:
-        search = sp.search(q=" ".join(recordingList[2:]))
-        if search:
-            uri = search['tracks']['items'][0]['uri']
+        if recordingList[2] in presets.keys():
+            uri = presets[recordingList[2]]
+        else :
+            search = sp.search(q=" ".join(recordingList[2:]))
+            if search:
+                uri = search['tracks']['items'][0]['uri']
 
     # Play meeseeks
     musicFile = "cando.mp3"
@@ -143,12 +153,9 @@ def main(recording=""):
 
     # Split into words list
     # ASCII encode and also lowercase the strings
-    recordingList = [x.encode('ascii') for x in recording.lower().split()]
-
-    print(recordingList)
+    recordingList = [x.encode('ascii') for x in recording.lower().replace('.', ' dots').split()]
 
     # Trying to give more flexibility to spotify requests
-    # Could be "play Spotify" or "Spotify play" or "Spotify play song"
     if "spotify" in recordingList:
         playSpotfiy(recordingList)
     elif "weather" in recordingList:
