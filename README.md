@@ -16,10 +16,10 @@ Using Python 2.7.10
   - DarkSky weather API key
   - Spotify application downloaded on your machine
   - If you have errors with PyAudio installation :
-	xcode-select --install
-	brew remove portaudio
-	brew install portaudio
-	pip3 install pyaudio
+    - xcode-select --install
+    - brew remove portaudio
+    - brew install portaudio
+    - pip3 install pyaudio
 
 ### To run :
  - Install the Google Cloud SDK - https://cloud.google.com/sdk/
